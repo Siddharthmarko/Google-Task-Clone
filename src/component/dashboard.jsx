@@ -1,16 +1,17 @@
 import React from "react"
-import TaskCard from "./taskCard";
-let data = [];
+import CheckedList from "./checkedList";
+import { useData } from "./context/task";
+
 export default function DashsBoard(){
-    const inDashBoardList = data.map((item) => {
-        if(item.checked){
-            return <TaskCard data={item} />
-        }
-    })
+    const {state} = useData()
 
+    const dashBoardList = state.filter(item => item.checked).map(item => (
+        <CheckedList key={item.id} data={item} />
+    ));
     return (
-        <div>
-
+        <div className="dash-board" >
+            {/* <h1>DashBoard</h1> */}
+            {dashBoardList}
         </div>
     )
 }

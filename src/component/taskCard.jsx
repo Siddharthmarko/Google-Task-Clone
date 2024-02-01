@@ -1,52 +1,37 @@
 import React from "react"
+import { useData } from "./context/task"
+
 
 export default function TaskCard({data}){
-    // object of list jisme task hai
-    let completeTask = [];
-    let nonCompleteTask = [];
+    const {state, dispatcher} = useData();
 
-    data.task.map((item) => {
-        if(item.complete) {
-            completeTask.push((item));
-        } else {
-            nonCompleteTask.push(item);
+    const op = {
+        rename: { type: 'rename', id: data.listName, new: 'falana' },
+        delete: {
+            type: 'delete',
+            id: 'list1',
+            taskId: data.id,
+        },
+        move: {
+            type: 'move',
+            id: 'list1',
+            taskId: data.id,
+            where: 'list2',
+        },
+        complete: {
+            type: 'complete',
+            id: 'list1',
         }
-    })
-
-    return (
-        <div className="task-card" >
-            <div className="card-heading" >
-                <h2>Task Name</h2>  
-                {/* <div className="dots" >
-                    <i>...</i>
-                    <div >
-                        <div>
-                        <div>Sort by</div>
-                        <div>My order</div>
-                        <div>Date</div>
-                    </div>
-                    <div>
-                        <div>Rename List</div>
-                        <div>Delete list</div>
-                    </div>
-                    <div>
-                    <div>Delete all complete task</div>
-                        
-                    </div>
-                    </div>
-                </div> */}
+    }
+    // console.log(data);
+    return ( <>
+            <div className="tasks">
+                <p>{data.title}</p>
+                <button onClick={() => dispatcher(op.rename)} >rename task</button>
+                <button onClick={() => dispatcher(op.delete)} >delete task</button>
+                <button onClick={() =>dispatcher(op.move)} >move list</button>
+                <button onClick={() => dispatcher(op.complete)}>Delete complete</button>
+                {/* <button>sort by</button> */}
             </div>
-            <div className="content-area" >
-                <h3>Add Task</h3>
-                <div>
-                    {nonCompleteTask}
-                </div>
-                <h4>Complete task</h4>
-                <div>
-                    {completeTask}
-                </div>
-                
-            </div>
-        </div>
-    )
+        </>)
 }
