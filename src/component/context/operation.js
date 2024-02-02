@@ -62,4 +62,21 @@ export default function reducer(state, action) {
         })
         return [...newArr];
     }
+    if(action.type === 'sort'){
+      state.map((item) => {
+            if(item.name === action.id){
+             item.task.sort((a, b) => {
+                    if (a.Complete && !b.Complete) {
+                        return -1; // Move a to the end
+                    } else if (!a.Complete && b.Complete) {
+                        return 1; // Move b to the end
+                    } else {
+                        return 0; // No change in order
+                    }
+                });
+            }
+            return item;
+        })
+        return [...state];
+    }
 }
