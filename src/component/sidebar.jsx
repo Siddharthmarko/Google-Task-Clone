@@ -1,13 +1,9 @@
 import React, { useState } from "react"
-
-let defaultList = [
-    { listName: 'list 1', checked: true },
-    { listName: 'list 2', checked: true },
-    { listName: 'list 3', checked: true },
-    { listName: 'list 4', checked: true }
-];
+import { useData } from "./context/task";
+import { Outlet } from "react-router-dom";
 
 export default function SideBar(){
+    const {state} = useData();
     const [showList, setShowList] = useState(false);
     const [addList, setAddList]  = useState(false);
     const [listName, setListName] = useState('');
@@ -23,15 +19,16 @@ export default function SideBar(){
         // console.log(e.target.name);
     }
 
-    defaultList = defaultList.map((item) => {
+    let defaultList = state.map((item) => {
             return  (
-                <div>
-                    <input type="checkbox" name={item.listName} checked={item.checked} onChange={handleCheck}  />
-                    <div>{item.listName}</div>
+            <div key = {item.id} >
+                    <input type="checkbox" name={item.name} checked={item.checked} onChange={handleCheck}  />
+                    <div>{item.name}</div>
                 </div>
             )
     })
     return (<>
+    <div className="main" >
             <div className="sidebar">
             <div>
                 <div className="create-btn">
@@ -61,5 +58,9 @@ export default function SideBar(){
                 </div>
             </div>
             </div>
+            <div className="content-area" >
+               <Outlet/>
+            </div>
+        </div>
         </>)
 }
