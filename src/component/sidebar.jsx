@@ -1,28 +1,18 @@
 import React, { useState } from "react"
 import { useData } from "./context/task";
 import { Outlet } from "react-router-dom";
+import { Button, Modal, Select, DatePicker, TimePicker } from 'antd';
+import CreateList from "./createList";
+import CreatTaskForm from "./creatTaskForm";
 
 export default function SideBar(){
     const {state} = useData();
     const [showList, setShowList] = useState(false);
-    const [addList, setAddList]  = useState(false);
-    const [listName, setListName] = useState('');
-
-    const handleCreate = () => {
-        console.log(listName);
-        // add list with defualt vale like checked, name, taks
-        // mai object mai chala jayega
-    }
-    
-    function handleCheck(e){
-        // yeah obje tka name lga serhc karega aur chekc undehck ka tick karnga
-        // console.log(e.target.name);
-    }
 
     let defaultList = state.map((item) => {
             return  (
             <div key = {item.id} >
-                    <input type="checkbox" name={item.name} checked={item.checked} onChange={handleCheck}  />
+                    <input type="checkbox" name={item.name} checked={item.checked} />
                     <div>{item.name}</div>
                 </div>
             )
@@ -32,28 +22,18 @@ export default function SideBar(){
             <div className="sidebar">
             <div>
                 <div className="create-btn">
-                    <button>Create</button>
+                    <CreatTaskForm/>
                 </div>
                     <div className="all-task" >
-                    <button>All Task</button>
+                        <Button>All Task</Button>
                     </div>
                 <div>
                     <div className="list-btn">
-                        <button onClick={() => setShowList(!showList)} >list</button>
+                        <Button onClick={() => setShowList(!showList)} >list</Button>
                     </div>
                     <div className="list-of-list" hidden={showList}>
                         {defaultList}
-                        <div>
-                            <button onClick={setAddList} >Add list</button>
-                            { 
-                                addList ? 
-                                            (<div> 
-                                                <input type="text" value={listName} onChange={setListName} />
-                                                <input type="submit" onClick={handleCreate}/>
-                                            </div> ) 
-                                    : ''
-                            }
-                        </div>
+                        <CreateList/>
                     </div>
                 </div>
             </div>
