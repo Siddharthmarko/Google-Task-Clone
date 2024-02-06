@@ -8,15 +8,20 @@ import {
     Button, 
     Modal
 } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-
+import { useData } from './context/task';
 
 const { TextArea } = Input;
 
 const CreateTaskForm = () => {
     const [taskFormOpen, setTaskFormOpen] = useState(false);
-    const [form] = useForm();
+    const {state, dispatcher} = useData();
 
+    const onFinish = (values) => {
+        console.log('Success:', values);
+        values.complete = false;
+        // console.log(values);
+        dispatcher({type: 'task', data: values});
+    };
     function showTaskForm() {
         setTaskFormOpen(true);
     }
@@ -37,7 +42,6 @@ const CreateTaskForm = () => {
                 footer={[]}
             >
                 <Form
-                    form={form}
                     labelCol={{
                         span: 4,
                     }}
@@ -48,28 +52,34 @@ const CreateTaskForm = () => {
                     style={{
                         maxWidth: 600,
                     }}
+                    onFinish={onFinish}
                 >
-                <Form.Item label="Input" >
+                <Form.Item label="Task-Name" name='title' rules={[{required: true, message:'required'}]}>
                     <Input />
                 </Form.Item>
 
-                <Form.Item label="DatePicker" >
+                {/* <Form.Item label="DatePicker" name='date' rules={[{required: true, message:'required'}]} >
                     <DatePicker />
                 </Form.Item>
-                <Form.Item label="TimePicker" >
+                <Form.Item label="TimePicker" name='time' rules={[{required: true, message:'required'}]} >
                     <TimePicker />
-                </Form.Item>
-                <Form.Item label="Select" >
-                    <Select>
-                        <Select.Option>
-                            My Task
-                        </Select.Option>
-                    </Select>
-                </Form.Item>
-                <Form.Item label="TextArea" >
+                </Form.Item> */}
+                    <Form.Item label="Select" name='listId' >
+                        <Select>
+                            {
+                            state.map((list) => 
+                                <Select.Option 
+                                    value={list.id}
+                                    >{list.name}
+                                </Select.Option>)
+                            }
+                            
+                        </Select>
+                    </Form.Item>
+                <Form.Item label="TextArea" name='description' rules={[{required: true, message:'required'}]} >
                     <TextArea rows={4} />
                 </Form.Item>
-                <Button type="primary" htmlType="submit">Submit</Button>
+                    <Button type="primary" htmlType="submit">Submit</Button>
                 <Button type='reset' >cancel</Button>
             </Form>
             </Modal>

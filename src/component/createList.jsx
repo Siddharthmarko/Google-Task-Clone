@@ -5,23 +5,23 @@ import {
     Button,
     Modal
 } from 'antd';
-import { useForm } from 'antd/es/form/Form';
+import { useData } from './context/task';
 
 export default function CreateList(){
-    const [form] = useForm();
-
-    console.log(Form.getFieldsValue);
     const [listFormOpen, setListFormOpen] = useState(false);
-    
+    const { dispatcher } = useData();
+
     function showListForm() {
         setListFormOpen(true);
     }
     function closeModel() {
         setListFormOpen(false);
     }
-    function onsubmit(e){
-    console.log(e)
-    }
+    const onFinish = (values) => {
+        console.log('Success:', values);
+        values = {...values, task: [], checked: true}
+        dispatcher({type: 'list', data: values});
+    };
 
     return(
         <>
@@ -34,28 +34,25 @@ export default function CreateList(){
                     // open={true}
                     footer={[]}
             >
-                <Form 
-                    form={form}
-                    name="register"
-                    onFinish={onsubmit}
-                    labelCol={{
-                        span: 4,
-                    }}
+                <Form
                     wrapperCol={{
-                        span: 14,
+                        span: 16,
                     }}
-                    layout='horizontal'
                     style={{
                         maxWidth: 600,
                     }}
+                    initialValues={{
+                        remember: false,
+                    }}
+                    onFinish={onFinish}
                 >
-                    <Form.Item label="Input" >
-                        <Input />
+                    <Form.Item label="List" name={'name'} rules={[{required: true, message: 'requried'}]} >
+                        <Input  />
                     </Form.Item>
-                    <Form.Item label='submit' >
+                    <Form.Item  >
                         <Button type="primary" htmlType="submit">Submit</Button>
+                        <Button type='reset' onClick={closeModel} >cancel</Button>
                     </Form.Item>
-                <Button type='reset' >cancel</Button>
                 </Form>
         </Modal>
         </>

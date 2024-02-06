@@ -6,26 +6,32 @@ import CreateList from "./createList";
 import CreatTaskForm from "./creatTaskForm";
 
 export default function SideBar(){
-    const {state} = useData();
+    const {state, dispatcher } = useData();
     const [showList, setShowList] = useState(false);
 
     let defaultList = state.map((item) => {
-            return  (
-            <div key = {item.id} >
-                    <input type="checkbox" name={item.name} checked={item.checked} />
-                    <div>{item.name}</div>
-                </div>
-            )
-    })
+        return (
+            <div key={item.id}>
+                <input
+                    type="checkbox"
+                    name={item.name}
+                    checked={item.checked}  
+                    onChange={(e) => dispatcher({ type: 'check', id: item.id, value: e.target.checked })}
+                />
+                <div>{item.name}</div>
+            </div>
+        );
+    });
+
     return (<>
     <div className="main" >
             <div className="sidebar">
             <div>
                 <div className="create-btn">
-                    <CreatTaskForm/>
+                    <CreatTaskForm  />
                 </div>
                     <div className="all-task" >
-                        <Button>All Task</Button>
+                        <Button onClick={() => dispatcher({type: 'all'})} >All Task</Button>
                     </div>
                 <div>
                     <div className="list-btn">

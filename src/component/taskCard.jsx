@@ -1,58 +1,43 @@
-import React from "react"
+import React, { useState } from "react"
 import { useData } from "./context/task"
 
 const Options = [
-    "Delete",
-    "Add Different List",
-    "New List"
+    <li>Delete</li>,
+    <li>Add Different List</li>,
+    <li>New List</li>
 ];
 export default function TaskCard({data}){
-    const {state, dispatcher} = useData();
+    const [complete, incomplete] = useState();
+    const [display, setDisplay] = useState(false);
+    const {dispatcher} = useData();
 
-    const op = {
-        rename: { type: 'rename', id: data.listName, new: 'falana' },
-        delete: {
-            type: 'delete',
-            id: 'list1',
-            taskId: data.id,
-        },
-        sort: {
-            type: 'sort',
-            id: 'list1',
-        },
-        move: {
-            type: 'move',
-            id: 'list1',
-            taskId: data.id,
-            where: 'list2',
-        },
-        complete: {
-            type: 'complete',
-            id: 'list1',
-        }
-    }
-    // console.log(data);
     return ( <>
         <li className="addTask">Add Task</li>
         <li>
-            <input type="checkbox" />
-            <p>Task list 1</p>
+            {data.complete ? 
+            <>
+                    <input type="checkbox" onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked })} checked={data.complete}/>
+                <del> <p>{data.title}</p></del>
+            </>: 
+            <>
+                <input type="checkbox" />
+                <p>{data.title}</p>
+            </>}
+            
             <div className="dot-container">
-                <i>...</i>
-                <ul className="dot-options d-none ">
-                    {Options}
-                    </ul>
+                {
+                data.complete 
+                ? 'delete' 
+                : <>
+                     <i onClick={() => setDisplay(!display)} >...</i>
+                            <ul className={`dot-options ${!display ? 'd-none' : ''}`}>
+                                {Options}
+                            </ul>
+
+                </>}
+                
             </div>
         </li>
       
         </>)
 }
-{/* <div className="tasks">
-    <span>{data.title}</span>
-    <button onClick={() => dispatcher(op.sort)} >Sort</button>
-    <button onClick={() => dispatcher(op.rename)} >rename task</button>
-    <button onClick={() => dispatcher(op.delete)} >delete task</button>
-    <button onClick={() => dispatcher(op.move)} >move list</button>
-    <button onClick={() => dispatcher(op.complete)}>Delete complete</button>
-    <button>sort by</button>
-</div> */}
