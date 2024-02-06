@@ -1,5 +1,4 @@
 import React,{ useState } from 'react'
-import CreateTask from './component/createTask'
 import SideBar from './component/sidebar'
 import TaskCard from './component/taskCard'
 import DashsBoard from './component/dashboard'

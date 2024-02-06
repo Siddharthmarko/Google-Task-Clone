@@ -10,7 +10,6 @@ export function useData (){
 
 export default function ContextProvider({children}){
     const [state, dispatcher] = useReducer(reducer, localData);
-    
     return (
         <TaskContext.Provider value={{state, dispatcher}} >
             {children}
