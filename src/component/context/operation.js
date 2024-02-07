@@ -1,6 +1,94 @@
-import { startTransition } from "react";
-
 export default function reducer(state, action) {
+
+    if (action.type === 'deletecomplete'){
+        let update = state.map((item) => {
+            if(item.id === action.listId){
+                let arr = item.task;
+                let newList = arr.filter((ele) => {
+                    return ele.id !== action.id;
+                })
+                item.task = newList;
+                return item;
+            }
+            return item;
+        })
+        console.log(update);
+        return update;
+    }
+    if (action.type === 'taskOption'){
+        let update = state.map((item) => {
+            if(item.id === action.listId){
+                let arr = item.task;
+                let newList = '';
+                if(action.option === 0){
+                 newList = arr.filter((ele) => {
+                        return ele.id !== action.id;
+                    })    
+                }
+                item.task = newList;
+                return item;
+                
+            }
+            return item;
+        })
+        console.log(update);
+        return update;
+    }
+    if (action.type === 'completeTask'){
+        // let newState = state;
+        // console.log(action);
+        let update = state.map((item) => {
+            if(item.id === action.listId){
+                let arr = item.task;
+                let newList = arr.map((task) => {
+                    if (task.id === action.id){
+                        return { ...task, 'complete': action.value}
+                    }
+                    return task;
+                })
+                // console.log(newList);
+                item.task = newList;
+                return item;
+            }
+            return item;
+        })
+        // console.log(update);
+        return update;
+    }
+
+    if(action.type === 'all'){
+        let update = state.map((item) => {
+            return {...item, 'checked': true};
+        })
+        return update;
+    }
+
+    if(action.type === 'check'){
+        console.log(action.value);
+        let update = state.map((item) => {
+            if(item.id === action.id){
+                return { ...item, 'checked': action.value}
+            }
+            return item;
+        })
+        return update;
+    }
+
+    if(action.type === 'list'){
+        action.data.id = crypto.randomUUID();
+        return [...state, action.data];   
+    }
+    if(action.type === 'task'){
+        action.data.id = crypto.randomUUID();
+         let update = state.map((item) => {
+
+             if(item.id === action.data.listId){
+                 return {...item, task: [...item.task, action.data]};
+                }
+                return item;
+            })
+        return update;   
+    }
     if (action.type === 'rename') {
 
         let newarr = state.map((item) => {

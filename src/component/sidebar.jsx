@@ -1,27 +1,13 @@
 import React, { useState } from "react"
-import { useData } from "./context/task";
+import { useData } from "./context/contextProvider";
 import { Outlet } from "react-router-dom";
 import { Button, Modal, Select, DatePicker, TimePicker } from 'antd';
-import CreateList from "./createList";
-import CreatTaskForm from "./creatTaskForm";
+import CreateList from "./subCompo/createList";
+import CreatTaskForm from "./subCompo/creatTaskForm";
 
 export default function SideBar(){
     const {state, dispatcher } = useData();
     const [showList, setShowList] = useState(false);
-
-    let defaultList = state.map((item) => {
-        return (
-            <div key={item.id}>
-                <input
-                    type="checkbox"
-                    name={item.name}
-                    checked={item.checked}  
-                    onChange={(e) => dispatcher({ type: 'check', id: item.id, value: e.target.checked })}
-                />
-                <div>{item.name}</div>
-            </div>
-        );
-    });
 
     return (<>
     <div className="main" >
@@ -38,7 +24,19 @@ export default function SideBar(){
                         <Button onClick={() => setShowList(!showList)} >list</Button>
                     </div>
                     <div className="list-of-list" hidden={showList}>
-                        {defaultList}
+                            {state.map((item) => {
+                                return (
+                                    <div key={item.id}>
+                                        <input
+                                            type="checkbox"
+                                            name={item.name}
+                                            checked={item.checked}
+                                            onChange={(e) => dispatcher({ type: 'check', id: item.id, value: e.target.checked })}
+                                        />
+                                        <div>{item.name}</div>
+                                    </div>
+                                );
+                            })}
                         <CreateList/>
                     </div>
                 </div>

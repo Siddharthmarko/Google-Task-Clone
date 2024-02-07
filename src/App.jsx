@@ -1,8 +1,7 @@
-import React,{ useState } from 'react'
+import React from 'react'
 import SideBar from './component/sidebar'
-import TaskCard from './component/taskCard'
 import DashsBoard from './component/dashboard'
-import ContextProvider from './component/context/task'
+import ContextProvider from './component/context/contextProvider'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
@@ -13,8 +12,6 @@ function App() {
         <Routes>
           <Route path="/" element={<SideBar />}>
             <Route index element={<DashsBoard />} />
-            {/* <Route path="sidebar" element={<SideBar />} />
-            <Route path="create-task" element={<CreateTask />} /> */}
           </Route>
         </Routes>
       </Router>
