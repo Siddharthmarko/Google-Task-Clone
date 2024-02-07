@@ -1,37 +1,43 @@
 import React, { useState } from "react"
-import { useData } from "./context/task"
+import { useData } from "./context/contextProvider"
+import { Select } from "antd";
 
 const Options = [
-    <li>Delete</li>,
-    <li>Add Different List</li>,
-    <li>New List</li>
+    'Delete',
+    'Add Different List',
+    // 'New List',
 ];
 export default function TaskCard({data}){
-    const [complete, incomplete] = useState();
     const [display, setDisplay] = useState(false);
     const {dispatcher} = useData();
 
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+   
     return ( <>
-        <li className="addTask">Add Task</li>
         <li>
             {data.complete ? 
             <>
-                    <input type="checkbox" onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked })} checked={data.complete}/>
+                    <input type="checkbox" onChange={() => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: false })} checked={data.complete}/>
                 <del> <p>{data.title}</p></del>
             </>: 
             <>
-                <input type="checkbox" />
+                <input type="checkbox" onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked })} />
                 <p>{data.title}</p>
             </>}
             
             <div className="dot-container">
                 {
                 data.complete 
-                ? 'delete' 
+                    ? <li onClick={() => dispatcher({ type: 'deletecomplete', listId: data.listId, id: data.id,  }) } >Delete</li>
                 : <>
                      <i onClick={() => setDisplay(!display)} >...</i>
                             <ul className={`dot-options ${!display ? 'd-none' : ''}`}>
-                                {Options}
+                                {Options.map((li, idx) => {
+                                    return <li key={idx} >{li}</li>
+                                })}
+                                {<ListOptions onChange={onChange} />}
                             </ul>
 
                 </>}
@@ -40,4 +46,25 @@ export default function TaskCard({data}){
         </li>
       
         </>)
+}
+
+function ListOptions( { onChange } ){
+    const { state } = useData();
+    let arr = state.map((e) => {
+            return {value: e.id, label: e.name};
+    })
+    const filterOption = (input, option) =>
+        (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
+    return (
+        <>
+            <Select
+                placeholder="Select"
+                optionFilterProp="children"
+                onChange={onChange}
+                filterOption={filterOption}
+                options={arr}
+            />
+        </>
+    )
 }
