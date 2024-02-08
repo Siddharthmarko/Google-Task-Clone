@@ -1,5 +1,9 @@
 export default function reducer(state, action) {
-
+    if(action.type === 'cardOption'){
+        alert("success card Option");
+        return state;
+    }
+    
     if (action.type === 'deletecomplete'){
         let update = state.map((item) => {
             if(item.id === action.listId){
