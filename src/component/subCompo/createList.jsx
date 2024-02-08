@@ -18,7 +18,7 @@ export default function CreateList(){
         setListFormOpen(false);
     }
     const onFinish = (values) => {
-        console.log('Success:', values);
+        // console.log('Success:', values);
         values = {...values, task: [], checked: true}
         dispatcher({type: 'list', data: values});
     };
@@ -31,7 +31,6 @@ export default function CreateList(){
                     open={listFormOpen}
                     onOk={closeModel}
                     onCancel={closeModel}
-                    // open={true}
                     footer={[]}
             >
                 <Form
@@ -46,12 +45,24 @@ export default function CreateList(){
                     }}
                     onFinish={onFinish}
                 >
-                    <Form.Item label="List" name={'name'} rules={[{required: true, message: 'requried'}]} >
-                        <Input  />
+                    <Form.Item 
+                        label="List" 
+                        name={'name'} 
+                        rules={[{required: true, message: 'requried'}]} 
+                        >
+                            <Input  />
                     </Form.Item>
                     <Form.Item  >
-                        <Button type="primary" htmlType="submit">Submit</Button>
-                        <Button type='reset' onClick={closeModel} >cancel</Button>
+                        <Button 
+                            type="primary" 
+                            htmlType="submit"
+                            >Submit
+                        </Button>
+                        <Button 
+                            type='reset' 
+                            onClick={closeModel} 
+                            >cancel
+                        </Button>
                     </Form.Item>
                 </Form>
         </Modal>

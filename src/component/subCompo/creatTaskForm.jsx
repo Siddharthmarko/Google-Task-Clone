@@ -36,25 +36,25 @@ const CreateTaskForm = () => {
             <Modal
                 title="Create Task"
                 open={taskFormOpen}
-                // open={true} 
                 onOk={closeModel}
                 onCancel={closeModel}
                 footer={[]}
             >
                 <Form
-                    labelCol={{
-                        span: 4,
-                    }}
-                    wrapperCol={{
-                        span: 14,
-                    }}
+                    labelCol={{ span: 4, }}
+                    wrapperCol={{ span: 14, }}
                     layout='horizontal'
-                    style={{
-                        maxWidth: 600,
-                    }}
+                    style={{ maxWidth: 600, }}
                     onFinish={onFinish}
                 >
-                <Form.Item label="Task-Name" name='title' rules={[{required: true, message:'required'}]}>
+                <Form.Item 
+                    label="Task-Name" 
+                    name='title' 
+                    rules={[{
+                            required: true, 
+                            message:'required'
+                            }]}>
+
                     <Input />
                 </Form.Item>
 
@@ -64,23 +64,36 @@ const CreateTaskForm = () => {
                 <Form.Item label="TimePicker" name='time' rules={[{required: true, message:'required'}]} >
                     <TimePicker />
                 </Form.Item> */}
-                    <Form.Item label="Select" name='listId' >
+                    <Form.Item 
+                        label="Select" 
+                        name='listId' >
                         <Select>
-                            {
-                            state.map((list) => 
-                                <Select.Option 
-                                    value={list.id}
-                                    >{list.name}
-                                </Select.Option>)
-                            }
+                            {state.map((list) => 
+                               <Select.Option value={list.id}>
+                                    {list.name}
+                                </Select.Option>
+                            )}
                             
                         </Select>
                     </Form.Item>
-                <Form.Item label="TextArea" name='description' rules={[{required: true, message:'required'}]} >
-                    <TextArea rows={4} />
+                    <Form.Item 
+                        label="TextArea" 
+                        name='description' 
+                        rules={[{required: true, message:'required'}]} >
+                            
+                        <TextArea   
+                            rows={4} 
+                        />
                 </Form.Item>
-                    <Button type="primary" htmlType="submit">Submit</Button>
-                <Button type='reset' >cancel</Button>
+                    <Button 
+                        type="primary" 
+                        htmlType="submit"
+                        >Submit
+                        </Button>
+                <Button 
+                    type='reset' 
+                    >cancel
+                </Button>
             </Form>
             </Modal>
     

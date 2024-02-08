@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useData } from "./context/contextProvider";
 import { Outlet } from "react-router-dom";
-import { Button, Modal, Select, DatePicker, TimePicker } from 'antd';
+import { Button } from 'antd';
 import CreateList from "./subCompo/createList";
 import CreatTaskForm from "./subCompo/creatTaskForm";
 
@@ -17,13 +17,22 @@ export default function SideBar(){
                     <CreatTaskForm  />
                 </div>
                     <div className="all-task" >
-                        <Button onClick={() => dispatcher({type: 'all'})} >All Task</Button>
+                        <Button 
+                            onClick={() => dispatcher({type: 'all'})} 
+                            >All Task
+                        </Button>
                     </div>
                 <div>
                     <div className="list-btn">
-                        <Button onClick={() => setShowList(!showList)} >list</Button>
+                        <Button 
+                            onClick={() => setShowList(!showList)} 
+                            >list
+                        </Button>
                     </div>
-                    <div className="list-of-list" hidden={showList}>
+                    <div 
+                        className="list-of-list" 
+                        hidden={showList}
+                        >
                             {state.map((item) => {
                                 return (
                                     <div key={item.id}>

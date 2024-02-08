@@ -5,7 +5,6 @@ import { Select } from "antd";
 const Options = [
     'Delete',
     'Add Different List',
-    // 'New List',
 ];
 export default function TaskCard({data}){
     const [display, setDisplay] = useState(false);
@@ -19,11 +18,15 @@ export default function TaskCard({data}){
         <li>
             {data.complete ? 
             <>
-                    <input type="checkbox" onChange={() => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: false })} checked={data.complete}/>
-                <del> <p>{data.title}</p></del>
-            </>: 
-            <>
-                <input type="checkbox" onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked })} />
+                <input 
+                    type="checkbox" 
+                    onChange={() => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: false })} 
+                    checked={data.complete}/>
+                    <del> 
+                        <p>{data.title}</p>
+                    </del>
+            </>: <> <input 
+                type="checkbox" onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked })} />
                 <p>{data.title}</p>
             </>}
             
