@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 import TaskCard from "./taskCard"
+import { MoreOutlined, CaretRightOutlined, CaretDownOutlined } from "@ant-design/icons";
+
 
 const options = [
     "Sort by date",
@@ -10,44 +12,45 @@ const options = [
 ];
 export default function CheckedList({ data }) {
     const [display , setDisplay] = useState();
+    const [hideComplete, setHideComplete] = useState(false);
+    // const [hover, ]
     let complete = [];
     let nonComplete = [];
     const dataInList = data.task.map((item) => {
         if (!item.complete){
-            complete.push(<TaskCard key={item.id} data={item} />)
-        }else {
             nonComplete.push(<TaskCard key={item.id} data={item} />)
+        }else {
+            complete.push(<TaskCard key={item.id} data={item} />)
         }
     })
     
     return (
-        <div className="card" id="style-3">
-            <div className="head">
-                <div>
-                    <h1>{data.name}</h1>
-                </div>
-                <div className="dots">
-                    <div className="dot-container">
-                        <i onClick={() => setDisplay(!display)} >...</i>
-                        <ul className={`dot-options ${!display ? 'd-none' : ''}`}>
-                            {options.map((li, idx) => {
-                                return <li key={idx} >{li}</li>
-                            })}
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div className="task">
-                <ul className="task-list">
-                {complete}
-                {(nonComplete.length !== 0) ? <>
-                    <p>complete hai</p>
-                    {nonComplete}
-                </> : ''}
+        <div className="p-5 h-[512px] border w-full max-w-2xl max-w-xl min-w-72 rounded-2xl overflow-auto bg-white">
+            <div className="flex justify-between">
+                <h1 className="font-bold " >{data.name}</h1>
+                <MoreOutlined onClick={() => setDisplay(!display)} />
+                <ul className={`shadow-xl absolute bg-white	 rounded-3xl ${!display ? 'd-none' : ''}`}>
+                    {options.map((li, idx) => {
+                        return <li className="text-sm my-4 px-7 py-1 hover:bg-slate-100" key={idx} >{li}</li>
+                    })}
 
                 </ul>
             </div>
+                <ul className="flex flex-col gap-3 pt-7 ">
+                {nonComplete}
+                {(complete.length !== 0) ? <>
+                <li 
+                    className="flex gap-5" 
+                    onClick={() => setHideComplete(!hideComplete)}    
+                >
+                    {hideComplete ? <CaretRightOutlined/> : <CaretDownOutlined/>}
+                    <p>complete </p>
+                </li>
+                    {hideComplete ? '' : complete}
+                </> : ''}
+
+                </ul>
+       
         </div>
     )
 }

@@ -5,10 +5,10 @@ import { useData } from "./context/contextProvider";
 export default function DashsBoard(){
     const {state} = useData()   
 
-    return (
-        <div className="dash-board" >
-            {state.map(e => e.checked && <CheckedList key={e.id} data={e} />)}
-        </div>
+    return ( 
+        <>
+        {state.map(e => e.checked && <CheckedList key={e.id} data={e} />)}
+        </>
     )
 }
 // {state.filter(e => e.checked)

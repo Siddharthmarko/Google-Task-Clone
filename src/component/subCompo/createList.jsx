@@ -5,6 +5,8 @@ import {
     Button,
     Modal
 } from 'antd';
+import { PlusOutlined } from '@ant-design/icons'
+
 import { useData } from '../context/contextProvider';
 
 export default function CreateList(){
@@ -25,7 +27,13 @@ export default function CreateList(){
 
     return(
         <>
-        <Button onClick={() => showListForm()} >Add List</Button>
+            <li onClick={() => showListForm()} >
+                <div className="flex px-4 gap-9">
+                    <PlusOutlined />
+                    <p>Create New List</p>
+                </div>
+            </li>
+        {/* <Button  >Add List</Button> */}
             <Modal
                     title="Add List"
                     open={listFormOpen}

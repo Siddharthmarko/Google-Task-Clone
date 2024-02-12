@@ -1,46 +1,68 @@
 import React, { useState } from "react"
 import { useData } from "./context/contextProvider"
 import { Select } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
 
 const Options = [
     'Delete',
-    'Add Different List',
+    'Change List',
 ];
 export default function TaskCard({data}){
     const [display, setDisplay] = useState(false);
     const {dispatcher} = useData();
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
+    function handleClick (value) {
+        console.log(value);
     };
    
     return ( <>
-        <li>
-            {data.complete ? 
-            <>
+        <li className="flex justify-between " >
+            {
+            (data.complete )
+                ? 
+                <div 
+                    className="flex gap-4 items-center" >
                 <input 
+                    className="rounded-full w-4 h-4 border border-slate-300 "
                     type="checkbox" 
                     onChange={() => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: false })} 
                     checked={data.complete}/>
-                    <del> 
-                        <p>{data.title}</p>
-                    </del>
-            </>: <> <input 
-                type="checkbox" onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked })} />
+                    <del className="mx-3" >{data.title} </del>
+                </div>  
+                : 
+                <div 
+                    className="flex gap-4 items-center" > 
+                <input 
+                    className=" rounded-full w-4 h-4 border border-slate-300"
+                    type="checkbox" 
+                    onChange={(e) => dispatcher({ type: 'completeTask', listId: data.listId, id: data.id, value: e.target.checked 
+                })} />
                 <p>{data.title}</p>
-            </>}
+                </div>
+            }
             
-            <div className="dot-container">
+            <div className="">
                 {
-                data.complete 
-                    ? <li onClick={() => dispatcher({ type: 'deletecomplete', listId: data.listId, id: data.id,  }) } >Delete</li>
-                : <>
-                     <i onClick={() => setDisplay(!display)} >...</i>
-                            <ul className={`dot-options ${!display ? 'd-none' : ''}`}>
-                                {Options.map((li, idx) => {
-                                    return <li key={idx} >{li}</li>
-                                })}
-                                {<ListOptions onChange={onChange} />}
+                    (data.complete) ?
+                           <li 
+                                onClick={() =>
+                                    dispatcher({ 
+                                        type: 'deletecomplete', 
+                                        listId: data.listId, 
+                                        id: data.id,  
+                                    })} 
+                                    >Delete
+                            </li>
+                        : <>
+                            <MoreOutlined onClick={() => setDisplay(!display)} />
+                                    <ul className={`shadow-xl absolute bg-white	 rounded-3xl ${!display ? 'd-none' : ''}`}>
+                                    {Options
+                                        .map((li, idx) =>  <li 
+                                                        className="text-sm my-3 px-7  hover:bg-slate-100" key={idx} >{li}</li>
+                                        )}
+                                    <div className="border" >
+                                    {<ListOptions onList={handleClick} />}
+                                    </div>
                             </ul>
 
                 </>}
@@ -51,23 +73,21 @@ export default function TaskCard({data}){
         </>)
 }
 
-function ListOptions( { onChange } ){
+function ListOptions({ onList }){
     const { state } = useData();
     let arr = state.map((e) => {
-            return {value: e.id, label: e.name};
+            return {name: e.name, id: e.id};
     })
-    const filterOption = (input, option) =>
-        (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
     return (
-        <>
-            <Select
-                placeholder="Select"
-                optionFilterProp="children"
-                onChange={onChange}
-                filterOption={filterOption}
-                options={arr}
-            />
+        <> 
+            {arr.map((item) => 
+                <li 
+                    onClick={() => onList(item)}
+                    className="text-xs my-2 px-7 hover:bg-slate-100"
+                    key={item.id} 
+                    >
+                        {item.name}
+                </li>)}
         </>
     )
 }

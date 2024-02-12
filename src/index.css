@@ -1,102 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
   margin: 0;
   padding: 0;
 }
-.dash-board {
-    display: flex;
-    padding: 50px;
-}
 
-.createtask{
-         width: 400px;
-    display: flex;
-    gap: 22px;
-    flex-direction: column;
-}
-.createtask label{
-     background-color: #c7c4c4c4;
-    margin: 5px;
-    padding: 4px 22px;
-}
-.createtask input {
-    margin: 5px;
-    padding: 5px;
-}
-.createtask div {
-width: 100%;
-    display: flex;
-    gap: 20px;
-}
-
-.main{
-  background-color: #a8121228;
-  height: 100vh;
-  display: flex;
-}
-.sidebar {
-    border: 1px solid;
-    width: 200px;
-    padding: 50px 0px;
-  }
-  .sidebar button {
-    margin: 20px;
-    border: 1px solid;
-  }
-  .sidebar .list-of-list > div{
-           display: flex;
-    justify-content: center;
-}
-.sidebar .create-btn, .all-task, .list-btn{
-  display: flex;
-  justify-content: center;
-}
-button {
-      padding: 8px 15px;
-    border-radius: 20px;
-}
-.content-area{
-  background-color: rgba(0, 0, 255, 0.175); 
-     width: 100%;
-}
 li {
     list-style: none;
 }
-.card {
-        width: 300px;
-    border: 1px solid;
-    /* height: 200px; */
-    overflow-y: scroll;
-}
-.head{    display: flex;
-    padding: 10px;
-    justify-content: space-between;}
 .d-none {
     display: none;
 }
-.dot-options {    
-        border: 1px solid;
-    padding: 20px 0;
-    position: absolute;
-    margin-left: -159px;
-    background: white;
-}
-.dot-options > li{   
-     /* border: 1px solid; */
-    padding: 10px;
-    font-size: 17px;}
-
-.addTask {
-color: blue;
-}
-.task-list {
-    padding: 10px;
-}
-.task-list > li{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-}
-
 #style-3::-webkit-scrollbar-thumb
 {
 	background-color: black;

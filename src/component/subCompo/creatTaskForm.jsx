@@ -32,7 +32,9 @@ const CreateTaskForm = () => {
 
     return (
         <>
-            <Button onClick={() => showTaskForm()} >Create</Button>
+            <button 
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
+                onClick={() => showTaskForm()} >Create</button>
             <Modal
                 title="Create Task"
                 open={taskFormOpen}
