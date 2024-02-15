@@ -1,46 +1,60 @@
 export default function reducer(state, action) {
-    if(action.type === 'cardOption'){
-        alert("success card Option");
-        return state;
-    }
-    
-    if (action.type === 'deletecomplete'){
+    // Showing List
+    if (action.type === 'check') {
         let update = state.map((item) => {
-            if(item.id === action.listId){
-                let arr = item.task;
-                let newList = arr.filter((ele) => {
-                    return ele.id !== action.id;
+            if(action.all) return {...item, 'checked': true}
+            item.checked = (item.id === action.id) ? action.value : item.checked
+            return item;
+        })
+        return update;
+    }
+    // delete list and delete complete list
+    if (action.type === 'cardOption') {
+        let updateList = [];
+        if (action.option === 0) {
+            updateList = state.filter((li) => {
+                return action.data !== li.id
+            })
+        }
+        if (action.option === 1) {
+            updateList = state.map((li) => {
+                li.task = li.task.filter((item) => {
+                    return item.complete !== true;
                 })
-                item.task = newList;
-                return item;
-            }
-            return item;
-        })
-        console.log(update);
-        return update;
+                return li;
+            })
+        }
+        return updateList;
     }
-    if (action.type === 'taskOption'){
-        let update = state.map((item) => {
-            if(item.id === action.listId){
-                let arr = item.task;
-                let newList = '';
-                if(action.option === 0){
-                 newList = arr.filter((ele) => {
-                        return ele.id !== action.id;
-                    })    
+    // Create and Edit List
+    if (action.type === 'list') {
+        // if rename is not false
+        if (action.reName) {
+            let update = state.map((li) => {
+                if (li.id === action.reName) {
+                    li.name = action.data.name;
                 }
-                item.task = newList;
-                return item;
-                
+                return li;
+            })
+            return update;
+        }
+        action.data.id = crypto.randomUUID();
+        return [...state, action.data];
+    }
+
+    // deleting task
+    if (action.type === 'deleteTask'){
+        // console.log(action.child);
+        let update = state.map((li) => {
+            if(li.id === action.child.listId){
+                li.task = li.task.filter((e) => e.id !== action.child.id);
             }
-            return item;
+            return li;
         })
-        console.log(update);
         return update;
     }
+    // check task
     if (action.type === 'completeTask'){
-        // let newState = state;
-        // console.log(action);
         let update = state.map((item) => {
             if(item.id === action.listId){
                 let arr = item.task;
@@ -50,7 +64,6 @@ export default function reducer(state, action) {
                     }
                     return task;
                 })
-                // console.log(newList);
                 item.task = newList;
                 return item;
             }
@@ -59,33 +72,10 @@ export default function reducer(state, action) {
         // console.log(update);
         return update;
     }
-
-    if(action.type === 'all'){
-        let update = state.map((item) => {
-            return {...item, 'checked': true};
-        })
-        return update;
-    }
-
-    if(action.type === 'check'){
-        console.log(action.value);
-        let update = state.map((item) => {
-            if(item.id === action.id){
-                return { ...item, 'checked': action.value}
-            }
-            return item;
-        })
-        return update;
-    }
-
-    if(action.type === 'list'){
-        action.data.id = crypto.randomUUID();
-        return [...state, action.data];   
-    }
+    // task create 
     if(action.type === 'task'){
         action.data.id = crypto.randomUUID();
          let update = state.map((item) => {
-
              if(item.id === action.data.listId){
                  return {...item, task: [...item.task, action.data]};
                 }
@@ -93,82 +83,5 @@ export default function reducer(state, action) {
             })
         return update;   
     }
-    if (action.type === 'rename') {
 
-        let newarr = state.map((item) => {
-            if (item.name === action.id) {
-                return { ...item, name: action.new };
-            }
-            return item;
-        })
-        return [...newarr];
-    }
-    if(action.type === 'delete'){
-        let newArr = state.map((item) => {
-            if(item.name === action.id){
-                let taskArr = item.task.filter((item) => {
-                        return item.id !== action.taskId;
-                })
-                item.task = taskArr;
-                return item;
-            }
-            return item;
-        })
-        return [...newArr];
-    }
-    if(action.type === 'move'){
-        let iskokaro = '';
-        let newArr = state.map((item) => {
-            if (item.name === action.id) {
-                let taskArr = item.task.filter((item) => {
-                    if(item.id === action.taskId){
-                        iskokaro = item;
-                    }
-                    return item.id !== action.taskId;
-                })
-                item.task = taskArr;
-                return item;
-            }
-            return item;
-        })
-        // console.log(newArr);
-        newArr = newArr.map((item) => {
-            // console.log(item);
-            if(item.name === action.where){
-                item.task.push(iskokaro);
-            }
-            return item;
-        })
-        return [...newArr];
-    }
-    if(action.type === 'complete'){
-        let newArr = state.map((item) => {
-            if (item.name === action.id) {
-                let taskArr = item.task.filter((item) => {
-                    return !item.Complete;
-                })
-                item.task = taskArr;
-                return item;
-            }
-            return item;
-        })
-        return [...newArr];
-    }
-    if(action.type === 'sort'){
-      state.map((item) => {
-            if(item.name === action.id){
-             item.task.sort((a, b) => {
-                    if (a.Complete && !b.Complete) {
-                        return -1; // Move a to the end
-                    } else if (!a.Complete && b.Complete) {
-                        return 1; // Move b to the end
-                    } else {
-                        return 0; // No change in order
-                    }
-                });
-            }
-            return item;
-        })
-        return [...state];
-    }
 }
