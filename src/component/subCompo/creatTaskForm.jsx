@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
 import {
-    DatePicker,
     Form,
     Input,
     Select,
-    TimePicker,
     Button, 
     Modal
 } from 'antd';
 import { useData } from '../context/contextProvider';
-
-const { TextArea } = Input;
+import { useForm } from 'antd/es/form/Form';
 
 const CreateTaskForm = () => {
     const [taskFormOpen, setTaskFormOpen] = useState(false);
     const {state, dispatcher} = useData();
+    const [form] = useForm();
 
     const onFinish = (values) => {
-        console.log('Success:', values);
         values.complete = false;
-        // console.log(values);
         dispatcher({type: 'task', data: values});
+        closeModel();
     };
     function showTaskForm() {
         setTaskFormOpen(true);
     }
     function closeModel() {
         setTaskFormOpen(false);
+        form.resetFields();
     }
     
 
@@ -34,15 +32,18 @@ const CreateTaskForm = () => {
         <>
             <button 
                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
-                onClick={() => showTaskForm()} >Create</button>
+                onClick={() => showTaskForm()} 
+                >Create
+            </button>
             <Modal
                 title="Create Task"
                 open={taskFormOpen}
-                onOk={closeModel}
+                // onOk={false}
                 onCancel={closeModel}
                 footer={[]}
             >
                 <Form
+                    form={form} 
                     labelCol={{ span: 4, }}
                     wrapperCol={{ span: 14, }}
                     layout='horizontal'
@@ -50,7 +51,7 @@ const CreateTaskForm = () => {
                     onFinish={onFinish}
                 >
                 <Form.Item 
-                    label="Task-Name" 
+                    label="Task" 
                     name='title' 
                     rules={[{
                             required: true, 
@@ -60,14 +61,8 @@ const CreateTaskForm = () => {
                     <Input />
                 </Form.Item>
 
-                {/* <Form.Item label="DatePicker" name='date' rules={[{required: true, message:'required'}]} >
-                    <DatePicker />
-                </Form.Item>
-                <Form.Item label="TimePicker" name='time' rules={[{required: true, message:'required'}]} >
-                    <TimePicker />
-                </Form.Item> */}
-                    <Form.Item 
-                        label="Select" 
+                <Form.Item 
+                        label="Select List" 
                         name='listId' >
                         <Select>
                             {state.map((list) => 
@@ -75,30 +70,21 @@ const CreateTaskForm = () => {
                                     {list.name}
                                 </Select.Option>
                             )}
-                            
                         </Select>
                     </Form.Item>
-                    <Form.Item 
-                        label="TextArea" 
-                        name='description' 
-                        rules={[{required: true, message:'required'}]} >
-                            
-                        <TextArea   
-                            rows={4} 
-                        />
-                </Form.Item>
+
                     <Button 
-                        type="primary" 
+                        type="" 
                         htmlType="submit"
                         >Submit
                         </Button>
                 <Button 
+                    onClick={closeModel}
                     type='reset' 
                     >cancel
                 </Button>
             </Form>
             </Modal>
-    
         </>
     );
 };

@@ -6,17 +6,15 @@ let defaultList = [
         "checked": true,
         "task": [
             {
-                "title": "Task 1",
+                "title": "Cabage",
                 "id": 1,
                 "listId": "7fc85a31-4e7a-4b95-a3ab-d8a7863a1d01",
-                "description": "Lorem ipsum dolor sit amet.",
                 "complete": false
             },
             {
-                "title": "Task 2",
+                "title": "Tomato",
                 "id": 2,
                 "listId": "7fc85a31-4e7a-4b95-a3ab-d8a7863a1d01",
-                "description": "Lorem ipsum dolor sit amet.",
                 "complete": true
             },
         ]
@@ -27,10 +25,9 @@ let defaultList = [
         "checked": true,
         "task": [
             {
-                "title": "Task 1",
-                "id": 1,
+                "title": "Cleaning",
+                "id": 3,
                 "listId": "2b6c9d3d-98f7-4e90-a52e-9e87179c4dbd",
-                "description": "Lorem ipsum dolor sit amet.",
                 "complete": false
             }
         ]
@@ -47,10 +44,9 @@ let defaultList = [
         "checked": false,
         "task": [
             {
-                "title": "Task 1",
-                "id": 1,
+                "title": "leg Day",
+                "id": 4,
                 "listId": "9e4bb6b8-144f-45d7-8eaf-6ef0dd33a462",
-                "description": "Lorem ipsum dolor sit amet.",
                 "complete": false
             }
         ]
